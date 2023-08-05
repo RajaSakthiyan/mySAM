@@ -1,0 +1,84 @@
+# Owner: Rajasakthiyan.G
+# Email: rajasakthiyan.g@gmail.com
+
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  hello-sam
+
+  SAM Template for hello-sam: CACI test
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
+    Properties:
+      TableName: WeatherData
+      DeletionProtectionEnabled: true
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+        - AttributeName: "Weather"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+        - AttributeName: Weather
+          KeyType: RANGE
+
+  # This is a Lambda function config associated with the source code: put_item.py
+  putItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/put_item.put_item_handler
+      Runtime: python3.7
+      MemorySize: 128
+      Timeout: 100
+      Description: A handler for performing add an item by id and Weather  from a request to DynamoDB table.
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref DynamoDBTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: POST
+
+  # This is a Lambda function config associated with the source code: delete_by_id.py
+  deleteByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/delete_by_id.delete_by_id_handler
+      Runtime: python3.7
+      MemorySize: 128
+      Timeout: 100
+      Description: A handler for performing deletion by id from a DynamoDB table.
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          TABLE_NAME: !Ref DynamoDBTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{id}
+            Method: GET
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  PutApi:
+    Description: "API Gateway endpoint URL for Prod stage for Put function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/"
+  PutFunction:
+    Description: "Put Lambda Function ARN"
+    Value: !GetAtt putItemFunction.Arn
+  PutTable:
+    Description: "DynamoDB table name"
+    Value: !GetAtt DynamoDBTable.Arn
