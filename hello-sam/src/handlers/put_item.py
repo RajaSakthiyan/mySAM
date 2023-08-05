@@ -30,7 +30,7 @@ class MissingKeyError(Exception):
         super().__init__(*args)
 
     def __str__(self) -> str:
-        return "'${self.missing_key}' is missing. 'id' and 'Weather' attributes should be present in the request body"
+        return f"'{self.missing_key}' is missing. 'id' and 'Weather' attributes should be present in the request body"
 
 
 def validate_expected_data(data):
@@ -64,6 +64,16 @@ def put_item_handler(event, context):
             TableName=TABLE_NAME,
             Item={"id": {"S": id}, "Weather": {"S": weather}},
         )
-        return {"statusCode": 200, "body": json.dumps(result)}
+        return {
+            "isBase64Encoded": False,
+            "statusCode": 200,
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps(result),
+        }
     except (MissingKeyError, InvalidRequestError) as error:
-        return {"statusCode": 400, "body": {"error": str(error)}}
+        return {
+            "isBase64Encoded": False,
+            "statusCode": 400,
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps({"error": str(error)}),
+        }

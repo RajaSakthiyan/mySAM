@@ -16,7 +16,8 @@ def delete_by_id_handler(event, context):
     """
     id = event["pathParameters"]["id"]
     client.delete_item(TableName=TABLE_NAME, Key={"id": {"S": str(id)}})
-
-    response = {"statusCode": 202, "body": None}
-
-    return response
+    return {
+        "isBase64Encoded": False,
+        "statusCode": 202,
+        "body": "",
+    }
