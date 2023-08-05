@@ -53,7 +53,7 @@ def validate_valid_data(data):
 def put_item_handler(event, context):
     """
     Lambda handler that performing validation and put call to DynamoDB.
-    The naem of the table is 'TABLE_NAME' from enviornment
+    The name of the table is 'TABLE_NAME' from enviornment
     """
     try:
         body = json.loads(event["body"])

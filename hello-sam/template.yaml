@@ -14,6 +14,23 @@ Globals:
     Timeout: 3
 
 Resources:
+  HelloSamApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Cors:
+        AllowMethods: "'POST, GET, DELETE, OPTIONS'"
+        AllowHeaders: "'Content-Type, X-Amz-Date, Authorization, X-Api-Key'"
+        AllowOrigin: "'*'"
+      Auth:
+        DefaultAuthorizer: LambdaRequestAuthorizer
+        Authorizers:
+          LambdaRequestAuthorizer:
+            FunctionPayloadType: REQUEST
+            FunctionArn: !GetAtt AuthorizerFunction.Arn
+            Identity:
+              Headers:
+                - Authorization
+
   DynamoDBTable:
     Type: AWS::DynamoDB::Table # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
     Properties:
@@ -29,6 +46,18 @@ Resources:
           KeyType: HASH
         - AttributeName: Weather
           KeyType: RANGE
+
+  AuthorizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/authorization.authorization_handler
+      Runtime: python3.7
+      MemorySize: 128
+      Timeout: 100
+      Description: A handler for performing authorization verification for api.
+    Environment:
+      Variables:
+        BEARER_TOKEN: allowme
 
   # This is a Lambda function config associated with the source code: put_item.py
   putItemFunction:
@@ -48,6 +77,8 @@ Resources:
           Properties:
             Path: /
             Method: POST
+            RestApiId:
+              Ref: HelloSamApi
 
   # This is a Lambda function config associated with the source code: delete_by_id.py
   deleteByIdFunction:
@@ -67,7 +98,9 @@ Resources:
           Type: Api
           Properties:
             Path: /{id}
-            Method: GET
+            Method: DELETE
+            RestApiId:
+              Ref: HelloSamApi
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
@@ -79,6 +112,12 @@ Outputs:
   PutFunction:
     Description: "Put Lambda Function ARN"
     Value: !GetAtt putItemFunction.Arn
-  PutTable:
+  DeleteFunction:
+    Description: "Put Lambda Function ARN"
+    Value: !GetAtt deleteByIdFunction.Arn
+  AuthorizerFunction:
+    Description: "Put Lambda Function ARN"
+    Value: !GetAtt deleteByIdFunction.Arn
+  DDBTable:
     Description: "DynamoDB table name"
     Value: !GetAtt DynamoDBTable.Arn
