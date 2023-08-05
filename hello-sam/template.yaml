@@ -12,6 +12,9 @@ Parameters:
   StageName:
     Type: String
     Default: Prod
+  BearerToken:
+    Type: String
+    Default: allowme
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -42,7 +45,7 @@ Resources:
     Properties:
       TableName: WeatherData
       DeletionProtectionEnabled: true
-      ProvisionedThroughput: 
+      ProvisionedThroughput:
         ReadCapacityUnits: "5"
         WriteCapacityUnits: "5"
       AttributeDefinitions:
@@ -64,9 +67,9 @@ Resources:
       MemorySize: 128
       Timeout: 100
       Description: A handler for performing authorization verification for api.
-    Environment:
-      Variables:
-        BEARER_TOKEN: allowme
+      Environment:
+        Variables:
+          BEARER_TOKEN: !Ref BearerToken
 
   # This is a Lambda function config associated with the source code: put_item.py
   putItemFunction:
@@ -80,13 +83,16 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME: !Ref DynamoDBTable
+      Policies:
+        DynamoDBCrudPolicy:
+          TableName: !Ref DynamoDBTable
       Events:
         Api:
           Type: Api
           Properties:
             Path: /
             Method: POST
-            RestApiId: 
+            RestApiId:
               Ref: HelloSamApi
 
   # This is a Lambda function config associated with the source code: delete_by_id.py
@@ -102,13 +108,16 @@ Resources:
         Variables:
           # Make table name accessible as environment variable from function code during execution
           TABLE_NAME: !Ref DynamoDBTable
+      Policies:
+        DynamoDBCrudPolicy:
+          TableName: !Ref DynamoDBTable
       Events:
         Api:
           Type: Api
           Properties:
             Path: /{id}
             Method: DELETE
-            RestApiId: 
+            RestApiId:
               Ref: HelloSamApi
 
 Outputs:

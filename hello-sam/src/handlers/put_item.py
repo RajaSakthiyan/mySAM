@@ -59,11 +59,11 @@ def put_item_handler(event, context):
         body = json.loads(event["body"])
         validate_expected_data(body)
         validate_valid_data(body)
-        id, Weather = body["id"], body["Weather"]
+        id, weather = body["id"], body["Weather"]
         result = client.put_item(
             TableName=TABLE_NAME,
-            Item={"id": {"S": id}, "name": {"S": Weather}},
+            Item={"id": {"S": id}, "Weather": {"S": weather}},
         )
         return {"statusCode": 200, "body": json.dumps(result)}
-    except [MissingKeyError, InvalidRequestError] as error:
+    except (MissingKeyError, InvalidRequestError) as error:
         return {"statusCode": 400, "body": {"error": str(error)}}
