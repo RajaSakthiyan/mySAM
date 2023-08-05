@@ -16,13 +16,14 @@ Parameters:
     Type: String
     Default: allowme
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+
 Globals:
   Function:
     Timeout: 3
 
 Resources:
   HelloSamApi:
+    # Added Cors, Authorization
     Type: AWS::Serverless::Api
     Properties:
       StageName: !Ref StageName
@@ -42,7 +43,9 @@ Resources:
                 - Authorization
 
   DynamoDBTable:
-    Type: AWS::DynamoDB::Table # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
+    # Enabled DeletionProtectionEnabled
+    # id is set as partition key
+    Type: AWS::DynamoDB::Table 
     Properties:
       TableName: WeatherData
       DeletionProtectionEnabled: true
@@ -57,6 +60,7 @@ Resources:
           KeyType: HASH
 
   AuthorizerFunction:
+    # simple token-based authorizer that will allow access “allowme”.
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/authorization.authorization_handler
@@ -103,7 +107,6 @@ Resources:
       Description: A handler for performing deletion by id from a DynamoDB table.
       Environment:
         Variables:
-          # Make table name accessible as environment variable from function code during execution
           TABLE_NAME: !Ref DynamoDBTable
       Policies:
         DynamoDBCrudPolicy:
@@ -118,9 +121,6 @@ Resources:
               Ref: HelloSamApi
 
 Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   WeatherApi:
     Description: "API Gateway endpoint URL for Prod stage for Put function"
     Value: !Sub "https://${HelloSamApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/"
