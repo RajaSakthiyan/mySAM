@@ -6,7 +6,7 @@ Backend Development Test - Check with 'hello-sam' directory contains implementat
 
 ## Requirements
 
-> Start with this sample project https://serverlessland.com/patterns/apigw-lambda-dynamodb that has a simple lambda function that puts data into a DynamoDB table
+> Started with this sample project https://serverlessland.com/patterns/apigw-lambda-dynamodb that has a simple lambda function that puts data into a DynamoDB table
 
 -	Amend the lambda function so that “id” and “Weather” are passed into the function in some JSON in the request body, rather than being hardcoded — <b>Done</b>
 
