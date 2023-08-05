@@ -37,6 +37,7 @@ Resources:
             FunctionPayloadType: REQUEST
             FunctionArn: !GetAtt AuthorizerFunction.Arn
             Identity:
+              ReauthorizeEvery: 0
               Headers:
                 - Authorization
 
