@@ -6,6 +6,8 @@ Backend Development Test - Check with 'hello-sam' directory contains implementat
 
 ## Requirements
 
+> Start with this sample project https://serverlessland.com/patterns/apigw-lambda-dynamodb that has a simple lambda function that puts data into a DynamoDB table
+
 -	Amend the lambda function so that “id” and “Weather” are passed into the function in some JSON in the request body, rather than being hardcoded — <b>Done</b>
 
 -	Add a validation that “id” and “Weather” are in the request body before updating DynamoDB. An error message should be returned if either attribute is missing  — <b>Done</b>
@@ -33,8 +35,10 @@ Backend Development Test - Check with 'hello-sam' directory contains implementat
     - Allow methods OPTIONS, GET, POST and DELETE  — <b>Done</b>
     - Allow headers of Content-Type, X-Amz-Date, Authorization and X-Api-Key — <b>Done</b>
     - Allow any origin — <b>Done</b>
-
+    
 -	Amend the Lambda functions to reference an environment variable for the DynamoDB table name (passed from template.yaml) instead of using a hard-coded name — <b>Done</b>
+
+> Note: All changes are deployed and tested in AWS
 
 [ddb-image]: https://docs.aws.amazon.com/images/apigateway/latest/developerguide/images/ddb-crud.png
 [package-url]: https://github.com/RajaSakthiyan/mySAM/tree/main/hello-sam
