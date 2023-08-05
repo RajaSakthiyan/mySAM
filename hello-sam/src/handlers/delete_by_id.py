@@ -15,9 +15,8 @@ def delete_by_id_handler(event, context):
     The name of the table is 'TABLE_NAME' from enviornment
     """
     id = event["pathParameters"]["id"]
-    client.delete_item(
-        TableName=TABLE_NAME, Key={"id": {"S": str(id)}})
-    
+    client.delete_item(TableName=TABLE_NAME, Key={"id": {"S": str(id)}})
+
     response = {"statusCode": 202, "body": None}
 
     return response

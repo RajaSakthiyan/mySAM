@@ -51,13 +51,9 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "id"
           AttributeType: "S"
-        - AttributeName: "Weather"
-          AttributeType: "S"
       KeySchema:
         - AttributeName: id
           KeyType: HASH
-        - AttributeName: Weather
-          KeyType: RANGE
 
   AuthorizerFunction:
     Type: AWS::Serverless::Function
