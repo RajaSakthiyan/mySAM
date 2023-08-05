@@ -8,6 +8,11 @@ Description: >
 
   SAM Template for hello-sam: CACI test
 
+Parameters:
+  StageName:
+    Type: String
+    Default: Prod
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
@@ -17,6 +22,7 @@ Resources:
   HelloSamApi:
     Type: AWS::Serverless::Api
     Properties:
+      StageName: !Ref StageName
       Cors:
         AllowMethods: "'POST, GET, DELETE, OPTIONS'"
         AllowHeaders: "'Content-Type, X-Amz-Date, Authorization, X-Api-Key'"
@@ -77,7 +83,7 @@ Resources:
           Properties:
             Path: /
             Method: POST
-            RestApiId:
+            RestApiId: 
               Ref: HelloSamApi
 
   # This is a Lambda function config associated with the source code: delete_by_id.py
@@ -99,16 +105,16 @@ Resources:
           Properties:
             Path: /{id}
             Method: DELETE
-            RestApiId:
+            RestApiId: 
               Ref: HelloSamApi
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  PutApi:
+  WeatherApi:
     Description: "API Gateway endpoint URL for Prod stage for Put function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/"
+    Value: !Sub "https://${HelloSamApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/"
   PutFunction:
     Description: "Put Lambda Function ARN"
     Value: !GetAtt putItemFunction.Arn

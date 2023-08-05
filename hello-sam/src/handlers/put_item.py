@@ -30,7 +30,7 @@ class MissingKeyError(Exception):
         super().__init__(*args)
 
     def __str__(self) -> str:
-        return f"'{self.missing_key}' is missing. 'id' and 'Weather' attributes should be present in the request body"
+        return "'${self.missing_key}' is missing. 'id' and 'Weather' attributes should be present in the request body"
 
 
 def validate_expected_data(data):
