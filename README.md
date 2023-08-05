@@ -1,5 +1,7 @@
 # mySAM
-Backend Development Test
+Backend Development Test - Check with 'hello-sam' directory contains implementation of below requirements and Bonus.
+
+[![link package][ddb-image]][package-url]
 
 
 ## Requirements
@@ -33,3 +35,6 @@ Backend Development Test
     - Allow any origin — <b>Done</b>
 
 -	Amend the Lambda functions to reference an environment variable for the DynamoDB table name (passed from template.yaml) instead of using a hard-coded name — <b>Done</b>
+
+[ddb-image]: https://docs.aws.amazon.com/images/apigateway/latest/developerguide/images/ddb-crud.png
+[package-url]: https://github.com/RajaSakthiyan/mySAM/tree/main/hello-sam
