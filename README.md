@@ -52,6 +52,7 @@ Backend Development Test - Check with 'hello-sam' directory contains implementat
 > install pipenv, for more information visit https://pipenv.pypa.io/en/latest/#install-pipenv-today
 
 ```shell
+# environment variables are need not to be valid.
 cd tests
 export AWS_ACCESS_KEY_ID=xxxxxxx
 export AWS_SECRET_ACCESS_KEY=xxxxxxx
