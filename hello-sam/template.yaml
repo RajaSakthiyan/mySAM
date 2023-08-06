@@ -50,8 +50,8 @@ Resources:
       TableName: WeatherData
       DeletionProtectionEnabled: true
       ProvisionedThroughput:
-        ReadCapacityUnits: "5"
-        WriteCapacityUnits: "5"
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
       AttributeDefinitions:
         - AttributeName: "id"
           AttributeType: "S"

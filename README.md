@@ -14,9 +14,9 @@ Backend Development Test - Check with 'hello-sam' directory contains implementat
 
 -	Add a validation that “id” and “Weather” are the only attributes in the request body. An error message should be returned if any other attributes are present  — <b>Done</b>
 
--	Add a unit test for the lambda function that tests a successful update and the two validations that have been added  — <b>In-Progress</b>
+-	Add a unit test for the lambda function that tests a successful update and the two validations that have been added  — <b>Done</b>
 
--	The unit test needs to be repeatable and can be executed automatically using pytest  — <b>In-Progress</b>
+-	The unit test needs to be repeatable and can be executed automatically using pytest  — <b>Done</b>
 
 -	Add a second lambda function that can be used to delete a record from the DynamoDB table -  — <b>Done</b>
 
