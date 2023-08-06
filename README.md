@@ -42,3 +42,18 @@ Backend Development Test - Check with 'hello-sam' directory contains implementat
 
 [ddb-image]: https://docs.aws.amazon.com/images/apigateway/latest/developerguide/images/ddb-crud.png
 [package-url]: https://github.com/RajaSakthiyan/mySAM/tree/main/hello-sam
+
+
+---
+
+## Run the Unit Test
+[unit_test.py](hello-sam/tests/unit_test.py) 
+
+> install pipenv, for more information visit https://pipenv.pypa.io/en/latest/#install-pipenv-today
+
+```shell
+cd tests
+pipenv install
+pipenv shell
+pytest unit_test.py
+```
