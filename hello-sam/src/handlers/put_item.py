@@ -8,7 +8,6 @@ import boto3
 client = boto3.client("dynamodb")
 
 EXPECTED_KEYS = ("id", "Weather")
-TABLE_NAME = os.environ["TABLE_NAME"]
 
 
 class InvalidRequestError(Exception):
@@ -55,13 +54,14 @@ def put_item_handler(event, context):
     Lambda handler that performing validation and put call to DynamoDB.
     The name of the table is 'TABLE_NAME' from enviornment
     """
+    TableName = os.environ["TABLE_NAME"]
     try:
         body = json.loads(event["body"])
         validate_expected_data(body)
         validate_valid_data(body)
         id, weather = body["id"], body["Weather"]
         result = client.put_item(
-            TableName=TABLE_NAME,
+            TableName=TableName,
             Item={"id": {"S": id}, "Weather": {"S": weather}},
         )
         return {
