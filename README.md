@@ -53,6 +53,9 @@ Backend Development Test - Check with 'hello-sam' directory contains implementat
 
 ```shell
 cd tests
+export AWS_ACCESS_KEY_ID=xxxxxxx
+export AWS_SECRET_ACCESS_KEY=xxxxxxx
+export AWS_DEFAULT_REGION=xx-xxx-2
 pipenv install
 pipenv shell
 pytest unit_test.py
