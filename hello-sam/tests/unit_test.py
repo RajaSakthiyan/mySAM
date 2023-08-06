@@ -63,7 +63,7 @@ def test_invalid_put_item(dynamodb_table):
     assert json.loads(response["body"]) == {
         "error": str(put_item.InvalidRequestError())
     }
-    item = dynamodb_table.get_item(Key={"id": "1"})
+    item = dynamodb_table.get_item(Key={"id": "2"})
     assert item.get("Item") == None
 
 
@@ -76,5 +76,5 @@ def test_missing_put_item(dynamodb_table):
     assert json.loads(response["body"]) == {
         "error": str(put_item.MissingKeyError("Weather"))
     }
-    item = dynamodb_table.get_item(Key={"id": "1"})
+    item = dynamodb_table.get_item(Key={"id": "3"})
     assert item.get("Item") == None
