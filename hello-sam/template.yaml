@@ -6,7 +6,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   hello-sam
 
-  SAM Template for hello-sam: CACI test
+  SAM Template for hello-sam:
 
 Parameters:
   StageName:
