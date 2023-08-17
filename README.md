@@ -1,5 +1,5 @@
 # mySAM
-Backend Development Test - Check with 'hello-sam' directory contains implementation of below requirements and Bonus.
+Check with 'hello-sam' directory contains implementation of below requirements and Bonus.
 
 [![link package][ddb-image]][package-url]
 
